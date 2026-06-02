@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="620" viewBox="0 0 2200 620" role="img" aria-label="Third Code Solutions Inc. horizontal logo">
+  <defs>
+    <linearGradient id="tcGradient" x1="0" y1="390" x2="390" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5526AB"/>
+      <stop offset="0.45" stop-color="#601BE6"/>
+      <stop offset="1" stop-color="#905AED"/>
+    </linearGradient>
+  </defs>
+  <rect x="70" y="115" width="390" height="390" rx="80" fill="url(#tcGradient)"/>
+  <polygon points="286,181 342,181 242,439 186,439" fill="#FFFFFF"/>
+  <text x="560" y="285" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="170" letter-spacing="-6" fill="#0C0B0F">Th/rd Code</text>
+  <text x="565" y="410" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="78" letter-spacing="0" fill="#601BE6">Solutions Inc.</text>
+</svg>
