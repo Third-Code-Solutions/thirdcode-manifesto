@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Third Code Solutions Inc. — The Third Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple:#601BE6;
+    --violet:#5526AB;
+    --lavender:#905AED;
+    --soft:#C0A9E2;
+    --ink:#0C0B0F;
+    --ink-bg:#0F0B1A;
+    --card:#171126;
+    --graphite:#45434B;
+    --mist:#E7E1ED;
+    --white:#FFFFFF;
+    --grad:linear-gradient(135deg,#601BE6 0%,#5526AB 100%);
+    --dark-grad:linear-gradient(160deg,#0F0B1A 0%,#2A2142 100%);
+    --maxw:1180px;
+    --reading:760px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink-bg);
+    color:var(--mist);
+    font-family:'Inter',Arial,sans-serif;
+    font-size:18px;
+    line-height:1.7;
+    letter-spacing:.1px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* ambient texture */
+  body::before{
+    content:"";
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(900px 600px at 80% -5%, rgba(96,27,230,.22), transparent 60%),
+      radial-gradient(700px 500px at -10% 30%, rgba(85,38,171,.16), transparent 60%),
+      radial-gradient(800px 700px at 50% 110%, rgba(144,90,237,.10), transparent 60%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35;
+    background-image:radial-gradient(rgba(192,169,226,.10) 1px, transparent 1px);
+    background-size:42px 42px;
+  }
+  .wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .reading{max-width:var(--reading)}
+
+  h1,h2,h3,h4{font-family:'Sora',sans-serif;color:var(--white);line-height:1.04;letter-spacing:-.02em;font-weight:800}
+  .mono{font-family:'JetBrains Mono',monospace;font-weight:500;letter-spacing:.02em}
+
+  /* mono section label */
+  .label{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;
+    color:var(--lavender);letter-spacing:.08em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;
+  }
+  .label::before{content:"//";color:var(--purple)}
+
+  p{margin-bottom:22px;color:#cfc6dd}
+  .reading p{font-size:19px}
+  strong{color:var(--white);font-weight:600}
+  em{color:var(--soft);font-style:normal}
+
+  a{color:var(--lavender);text-decoration:none}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(15,11,26,.72);
+    border-bottom:1px solid rgba(192,169,226,.10);
+  }
+  nav .bar{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .mark{
+    width:34px;height:34px;border-radius:10px;background:var(--grad);
+    display:grid;place-items:center;box-shadow:0 6px 20px rgba(96,27,230,.45);flex:none;
+  }
+  .mark span{font-family:'Sora';font-weight:800;color:#fff;font-size:21px;transform:skewX(-12deg);line-height:1}
+  .brand b{font-family:'Sora';font-weight:800;color:#fff;font-size:16px;letter-spacing:-.01em}
+  .brand small{display:block;color:var(--soft);font-size:10px;font-weight:600;letter-spacing:.04em;margin-top:-2px}
+  .navlinks{display:flex;gap:26px}
+  .navlinks a{font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--soft);transition:color .2s}
+  .navlinks a:hover{color:var(--white)}
+  @media(max-width:780px){.navlinks{display:none}}
+
+  /* ---------- HERO / COVER ---------- */
+  .hero{padding:120px 0 110px;position:relative}
+  .slash-bg{
+    position:absolute;right:-40px;top:0;bottom:0;width:48%;z-index:-1;pointer-events:none;opacity:.9;
+  }
+  .slash-bg svg{height:100%;width:100%}
+  .cover-label{margin-bottom:34px}
+  .hero h1{
+    font-size:clamp(46px,8.4vw,104px);font-weight:800;letter-spacing:-.03em;
+    margin-bottom:30px;
+  }
+  .hero h1 .glow{
+    background:linear-gradient(120deg,#905AED,#601BE6 60%,#C0A9E2);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero .deck{font-size:clamp(19px,2.4vw,24px);color:var(--soft);max-width:680px;line-height:1.5;font-weight:400}
+  .mantra{
+    margin-top:54px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--soft);
+    letter-spacing:.06em;display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+  }
+  .mantra b{color:var(--white);font-weight:500}
+  .mantra .sl{color:var(--purple)}
+
+  /* ---------- SECTION ---------- */
+  section{padding:78px 0;border-top:1px solid rgba(192,169,226,.08)}
+  .sec-head{font-size:clamp(30px,4.6vw,52px);margin-bottom:30px;max-width:880px}
+  .lede{font-size:22px;color:var(--white);font-weight:500;line-height:1.5;margin-bottom:30px;max-width:760px}
+
+  /* pull quote */
+  .pull{
+    margin:46px 0;padding:30px 34px;border-left:3px solid var(--purple);
+    background:linear-gradient(100deg,rgba(96,27,230,.10),transparent 80%);
+    border-radius:0 16px 16px 0;
+  }
+  .pull p{
+    font-family:'Sora',sans-serif;font-weight:600;color:var(--white);
+    font-size:clamp(22px,3vw,30px);line-height:1.25;letter-spacing:-.01em;margin:0;
+  }
+
+  /* founder letter card */
+  .letter{
+    background:var(--card);border:1px solid rgba(144,90,237,.18);border-radius:24px;
+    padding:46px 48px;position:relative;overflow:hidden;
+  }
+  .letter::before{
+    content:"/";position:absolute;right:-10px;top:-60px;font-family:'Sora';font-weight:800;
+    font-size:340px;color:rgba(96,27,230,.10);transform:skewX(-12deg);line-height:1;pointer-events:none;
+  }
+  .letter .sig{margin-top:28px;font-family:'Sora';color:var(--white);font-weight:700;font-size:18px}
+  .letter .sig small{display:block;font-family:'JetBrains Mono',monospace;color:var(--soft);font-size:12px;font-weight:400;margin-top:4px}
+  @media(max-width:600px){.letter{padding:32px 24px}}
+
+  /* code grid (what we build) */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:14px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .tile{
+    background:var(--card);border:1px solid rgba(192,169,226,.12);border-radius:18px;
+    padding:30px 30px 32px;transition:transform .25s ease,border-color .25s ease,background .25s ease;
+  }
+  .tile:hover{transform:translateY(-4px);border-color:rgba(144,90,237,.5);background:#1b1430}
+  .tile .num{font-family:'JetBrains Mono',monospace;color:var(--lavender);font-size:13px;letter-spacing:.05em}
+  .tile h3{font-size:21px;margin:14px 0 10px;color:#fff}
+  .tile p{font-size:16px;margin:0;color:#bdb3cd}
+
+  /* PAVI feature */
+  .pavi{
+    background:var(--dark-grad);border:1px solid rgba(144,90,237,.30);border-radius:26px;
+    padding:50px 50px 46px;position:relative;overflow:hidden;
+  }
+  .pavi .chip{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--soft);
+    border:1px solid rgba(192,169,226,.25);border-radius:999px;padding:6px 14px;margin-bottom:22px;letter-spacing:.04em;
+  }
+  .pavi h3{font-size:clamp(28px,4vw,40px);margin-bottom:8px}
+  .pavi .tag{font-family:'JetBrains Mono',monospace;color:var(--lavender);font-size:15px;margin-bottom:24px}
+  .signals{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  @media(max-width:700px){.signals{grid-template-columns:1fr 1fr}}
+  @media(max-width:440px){.signals{grid-template-columns:1fr}}
+  .signal{
+    background:rgba(23,17,38,.7);border:1px solid rgba(192,169,226,.14);border-radius:14px;padding:18px 18px;
+  }
+  .signal .k{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lavender);letter-spacing:.04em}
+  .signal .v{color:#fff;font-weight:600;font-size:15px;margin-top:6px;font-family:'Sora'}
+  @media(max-width:600px){.pavi{padding:34px 26px}}
+
+  /* values */
+  .values{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin-top:18px;border:1px solid rgba(192,169,226,.12);border-radius:20px;overflow:hidden}
+  @media(max-width:700px){.values{grid-template-columns:1fr}}
+  .value{padding:30px 32px;border-right:1px solid rgba(192,169,226,.10);border-bottom:1px solid rgba(192,169,226,.10)}
+  .value:nth-child(2n){border-right:none}
+  .value .n{font-family:'JetBrains Mono',monospace;color:var(--purple);font-size:13px}
+  .value h4{font-size:19px;margin:10px 0 8px;color:#fff}
+  .value p{font-size:15px;margin:0;color:#bdb3cd}
+
+  /* timeline / decade */
+  .phase{display:grid;grid-template-columns:120px 1fr;gap:26px;padding:26px 0;border-bottom:1px solid rgba(192,169,226,.08)}
+  .phase:last-child{border-bottom:none}
+  .phase .yr{font-family:'JetBrains Mono',monospace;color:var(--lavender);font-size:14px;padding-top:4px}
+  .phase h4{font-size:21px;color:#fff;margin-bottom:8px}
+  .phase p{font-size:16px;margin:0;color:#bdb3cd}
+  @media(max-width:600px){.phase{grid-template-columns:1fr;gap:8px}}
+
+  /* leadership */
+  .lead{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.lead{grid-template-columns:1fr}}
+
+  /* founding team */
+  .founder-card{
+    background:var(--dark-grad);border:1px solid rgba(144,90,237,.32);border-radius:22px;
+    padding:38px 40px;margin:34px 0 18px;position:relative;overflow:hidden;
+  }
+  .founder-card::before{
+    content:"/";position:absolute;right:8px;top:-70px;font-family:'Sora';font-weight:800;
+    font-size:300px;color:rgba(96,27,230,.10);transform:skewX(-12deg);line-height:1;pointer-events:none;
+  }
+  .founder-card .role{font-family:'JetBrains Mono',monospace;color:var(--lavender);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .founder-card h3{font-size:30px;color:#fff;margin:12px 0 4px}
+  .founder-card .title{font-family:'JetBrains Mono',monospace;color:var(--soft);font-size:13px;margin-bottom:16px}
+  .founder-card p{font-size:17px;color:#d6cce6;max-width:760px;margin:0}
+  @media(max-width:600px){.founder-card{padding:30px 24px}}
+
+  .team{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:0}
+  @media(max-width:860px){.team{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.team{grid-template-columns:1fr}}
+  .member{
+    background:var(--card);border:1px solid rgba(192,169,226,.12);border-radius:18px;
+    padding:28px 28px 30px;transition:transform .25s ease,border-color .25s ease,background .25s ease;
+  }
+  .member:hover{transform:translateY(-4px);border-color:rgba(144,90,237,.5);background:#1b1430}
+  .member .role{font-family:'JetBrains Mono',monospace;color:var(--lavender);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+  .member h4{font-family:'Sora';font-size:20px;color:#fff;margin:13px 0 4px;letter-spacing:-.01em}
+  .member .title{color:var(--soft);font-size:12.5px;font-weight:500;margin-bottom:13px;line-height:1.4}
+  .member p{font-size:15px;margin:0;color:#bdb3cd;line-height:1.6}
+
+  /* closing */
+  .closing{text-align:center;padding:110px 0 120px}
+  .closing h2{font-size:clamp(34px,6vw,72px);letter-spacing:-.03em;line-height:1.02;margin-bottom:28px}
+  .closing h2 .glow{background:linear-gradient(120deg,#C0A9E2,#905AED,#601BE6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .closing .mantra{justify-content:center;margin-top:46px}
+
+  footer{border-top:1px solid rgba(192,169,226,.10);padding:36px 0;color:var(--soft);font-size:13px}
+  footer .row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+  footer .mono{font-size:12px}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  .hero .cover-label,.hero h1,.hero .deck,.hero .mantra{animation:fadeUp .9s ease both}
+  .hero h1{animation-delay:.08s}
+  .hero .deck{animation-delay:.18s}
+  .hero .mantra{animation-delay:.28s}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap bar">
+    <div class="brand">
+      <div class="mark"><span>/</span></div>
+      <div><b>Th/rd Code</b><small>SOLUTIONS INC.</small></div>
+    </div>
+    <div class="navlinks">
+      <a href="#problem">Problem</a>
+      <a href="#philosophy">Third Code</a>
+      <a href="#build">What We Build</a>
+      <a href="#pavi">PAVI</a>
+      <a href="#vision">Vision</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== COVER ===== -->
+<header class="hero">
+  <div class="slash-bg" aria-hidden="true">
+    <svg viewBox="0 0 400 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#601BE6" stop-opacity=".55"/>
+        <stop offset="1" stop-color="#5526AB" stop-opacity="0"/>
+      </linearGradient></defs>
+      <path d="M300 -40 L120 740 L40 740 L220 -40 Z" fill="url(#g1)"/>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="label cover-label">Third Code Solutions Inc. — Company Manifesto</div>
+    <h1>Intelligence is being<br><span class="glow">rewritten.</span><br>We build what comes next.</h1>
+    <p class="deck">An AI, software, and intelligence-infrastructure company from the Philippines — building for the moment when knowing things stops being the advantage, and understanding them becomes everything.</p>
+    <div class="mantra"><b>Build</b><span class="sl">/</span><b>Solve</b><span class="sl">/</span><b>Scale</b><span class="sl">/</span><b>Together</b></div>
+  </div>
+</header>
+
+<!-- ===== FOUNDER LETTER ===== -->
+<section id="letter">
+  <div class="wrap">
+    <div class="label">Founder Letter</div>
+    <div class="letter reveal">
+      <p>I started building software because I believed code could solve almost anything. For most of my career, that was true. The hard part was always the building — the logic, the architecture, the long nights translating a messy business problem into something a machine could run.</p>
+      <p>Then the machines learned to build.</p>
+      <p>In the span of two years, the skill that defined a generation of engineers became something you could rent by the token. The thing we were proudest of — raw technical execution — is now the cheapest part of the stack. I watched brilliant people quietly panic about what was left for them. I felt it too.</p>
+      <p>But I noticed something the panic was missing. The models could write the code, draft the contract, summarize the report. What they could not do was decide <em>which</em> problem was worth solving, frame it in a way a human would trust, and judge whether the answer was right for the people it would land on. The machine produces. It does not yet <strong>understand the room.</strong></p>
+      <p>That gap — between what AI can generate and what a business can actually use — is the most valuable real estate in the economy right now. It is where logic meets judgment, where capability meets context, where the technical meets the deeply human. We named it the <strong>Third Code</strong>, and we built a company to operate inside it.</p>
+      <p>We are doing this from the Philippines on purpose. The next great technology companies will not all come from the same forty square miles of California. Talent is global now; leverage is global now. What has been missing is conviction and infrastructure. We intend to supply both.</p>
+      <p>This document is not a brochure. It is a statement of what we believe is coming, and what we are building to meet it. If you are an enterprise, an investor, a founder, or a builder who feels the ground moving — read it as an invitation.</p>
+      <div class="sig">Masshi Okubo<small>FOUNDER &amp; CEO — THIRD CODE SOLUTIONS INC.</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== THE PROBLEM ===== -->
+<section id="problem">
+  <div class="wrap reading">
+    <div class="label">The Problem</div>
+    <h2 class="sec-head">Organizations are drowning in information and starving for intelligence.</h2>
+    <p class="lede">Every company on earth now has access to more data, more tools, and more raw capability than the largest corporations had a decade ago. Almost none of them are smarter for it.</p>
+    <p>The bottleneck was never access. It was synthesis. Businesses don't fail because they lack information — they fail because their information lives in forty disconnected systems, their decisions wait on the one person who understands the spreadsheet, and their hardest knowledge walks out the door every time someone resigns.</p>
+    <p>AI was supposed to fix this. Instead, for most organizations, it added a new layer of noise on top of the old one: a thousand pilots, a hundred chatbots, and almost no compounding advantage. They <strong>adopted AI without becoming intelligent.</strong></p>
+    <div class="pull"><p>Most businesses don't need more AI. They need clearer workflows, cleaner data, and systems that think.</p></div>
+    <p>And there is a second, quieter problem — one almost no one is measuring yet. Your customers have stopped searching and started <em>asking</em>. They no longer scroll ten blue links and decide for themselves. They ask a model, and the model decides for them: which vendor to trust, which product to recommend, which story to repeat.</p>
+    <p>That means every organization now has a second reputation — the one that exists <strong>inside the machines.</strong> It shapes revenue, hiring, deals, and capital. And right now, it is completely invisible and entirely unmanaged.</p>
+  </div>
+</section>
+
+<!-- ===== WHY THE WORLD IS CHANGING ===== -->
+<section id="changing">
+  <div class="wrap reading">
+    <div class="label">Why The World Is Changing</div>
+    <h2 class="sec-head">The economy is shifting from access to judgment.</h2>
+    <p>For three decades, the great fortunes were built on information asymmetry — knowing what others didn't, finding what others couldn't, indexing what others hadn't. The internet democratized access. AI finished the job.</p>
+    <div class="pull"><p>Software ate the world. AI is rewriting the menu.</p></div>
+    <p>When every competitor can summon the same model, the same code, and the same answer in the same second, none of those things are advantages anymore. They are utilities — like electricity. You don't win because you have power. You win because of what you build with it.</p>
+    <p>This is the great inversion of our era: <strong>information became abundant, and judgment became scarce.</strong> The ability to ask the right question, frame the right problem, read the human stakes, and act faster than the market — that is the new premium. It does not come from a model. It comes from people who know how to wield one.</p>
+    <p>The companies that merely <em>use</em> AI will look busy. The companies that <em>understand</em> it will compound. The difference between them will be measured in orders of magnitude, and it will be permanent.</p>
+    <div class="pull"><p>The future belongs to organizations that can see what machines see — and decide what humans should do about it.</p></div>
+  </div>
+</section>
+
+<!-- ===== THE THIRD CODE ===== -->
+<section id="philosophy">
+  <div class="wrap reading">
+    <div class="label">The Third Code Philosophy</div>
+    <h2 class="sec-head">There have only ever been three codes.</h2>
+    <p>The <strong>first code</strong> was human. Language, law, logic, narrative — the operating system of civilization. It let strangers cooperate, contracts hold, and ideas outlive the people who had them. It is the code of meaning.</p>
+    <p>The <strong>second code</strong> was machine. The precise instructions we wrote to make silicon obey — software, the most powerful lever humanity has ever built. It is the code of execution, and AI has now learned to write it faster than we can.</p>
+    <p>For a long time, mastery of the second code was the definition of intelligence. The mathematician and the engineer sat at the top of the hierarchy. They are also the first to be automated — because pure technical execution is exactly what machines do best.</p>
+    <div class="pull"><p>The standard of intelligence used to be engineers and mathematicians. They're the first being replaced. The new intelligence is what's left.</p></div>
+    <p>What's left is the <strong>Third Code</strong> — the layer between human meaning and machine execution. It is the judgment that decides what the machine should do. The taste that knows when the output is good enough to ship and when it isn't. The understanding of human nature that turns a correct answer into a decision people will actually trust and act on.</p>
+    <p>The Third Code cannot be compressed into a prompt, because it isn't information. It is the synthesis of <strong>human logic, technical capability, and human nature</strong> — and it becomes <em>more</em> valuable as the machines get better, not less. The smarter the tools, the more leverage flows to the people who know exactly what to point them at.</p>
+    <p>This is not a tagline. It is our entire thesis. We build at the layer that AI makes more important, not less — and we build the infrastructure that lets organizations operate there.</p>
+  </div>
+</section>
+
+<!-- ===== WHAT WE BUILD ===== -->
+<section id="build">
+  <div class="wrap">
+    <div class="label">What We Build</div>
+    <h2 class="sec-head">We don't sell tools. We build the infrastructure of intelligence.</h2>
+    <p class="lede" style="max-width:820px">Third Code Solutions is a parent technology company designed to launch and scale a portfolio of AI systems, software platforms, and intelligence products. We operate across six layers — each one a piece of the same machine.</p>
+    <div class="grid">
+      <div class="tile reveal"><div class="num">// 01</div><h3>Artificial Intelligence</h3><p>Agentic systems, AI copilots, and reasoning workflows built for real operations — not demos. AI that does the work, shows its work, and earns trust.</p></div>
+      <div class="tile reveal"><div class="num">// 02</div><h3>Software Development</h3><p>Custom platforms, dashboards, portals, and internal tools engineered for speed without sacrificing structure. Clean systems, clean handoff, scalable foundations.</p></div>
+      <div class="tile reveal"><div class="num">// 03</div><h3>Data Intelligence</h3><p>Turning scattered, unreadable data into decisions. We make status visible, surface what matters, and let operators act without a PhD in the dashboard.</p></div>
+      <div class="tile reveal"><div class="num">// 04</div><h3>Automation</h3><p>Connecting CRMs, forms, reports, and repetitive workflows into one system that runs itself — removing the manual labor that quietly bleeds every growing company.</p></div>
+      <div class="tile reveal"><div class="num">// 05</div><h3>Digital Infrastructure</h3><p>Cloud deployment, architecture, and the unglamorous backbone that lets everything above it scale. The plumbing nobody sees and everyone depends on.</p></div>
+      <div class="tile reveal"><div class="num">// 06</div><h3>Emerging Technologies</h3><p>AI visibility, governance, and the categories that don't have names yet. We build the instruments for measuring a world that didn't exist eighteen months ago.</p></div>
+    </div>
+    <div class="reading" style="margin-top:42px">
+      <p>Our operating model is deliberate: a fast, founder-led studio that turns business problems into working systems in days, paired with a product engine that takes the patterns we see most — the bottlenecks every company shares — and turns them into scalable platforms. Services fund the conviction. Products carry it to the world.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUCTS & PLATFORMS ===== -->
+<section id="products">
+  <div class="wrap reading">
+    <div class="label">Products &amp; Platforms</div>
+    <h2 class="sec-head">A holding company for the AI era.</h2>
+    <p>Most software companies are a single product wearing a company costume. We built the opposite: a company designed to spawn products. Each one stands alone — and each one feeds the same thesis that intelligence is the asset worth owning.</p>
+    <p>Our client work is the radar. It tells us, in real time and with revenue attached, exactly where the pain lives — which workflows break, which decisions stall, which problems every business in a vertical shares. The most universal of those become platforms. The most defensible of those become <strong>category-defining infrastructure.</strong></p>
+    <p>The first to clear that bar is PAVI.</p>
+  </div>
+</section>
+
+<!-- ===== PAVI ===== -->
+<section id="pavi">
+  <div class="wrap">
+    <div class="label">PAVI — Flagship Intelligence Platform</div>
+    <div class="pavi reveal">
+      <span class="chip">// FLAGSHIP PLATFORM</span>
+      <h3>PAVI</h3>
+      <div class="tag">The Bloomberg Terminal for AI visibility.</div>
+      <p style="color:#d6cce6;font-size:19px;max-width:760px">Two decades ago, businesses learned they had a reputation on Google, and an entire industry — SEO — was born to measure and shape it. Today, a far larger shift is happening with no instruments at all: your customers are asking AI, and AI is answering <em>for</em> you.</p>
+      <p style="color:#d6cce6;font-size:19px;max-width:760px">Every brand now exists as a representation inside the world's models — a quiet, persistent set of assumptions about who you are, what you're good at, and whether you should be trusted. That representation is driving real decisions about your company every single day. <strong>PAVI is the instrument that makes it visible.</strong></p>
+      <p style="color:#d6cce6;font-size:19px;max-width:760px">PAVI goes far beyond sentiment monitoring. It reads how AI systems actually <em>reason</em> about you:</p>
+      <div class="signals">
+        <div class="signal"><div class="k">// REASONING</div><div class="v">How models think through your brand</div></div>
+        <div class="signal"><div class="k">// TRUST</div><div class="v">The trust signals AI attaches to you</div></div>
+        <div class="signal"><div class="k">// NARRATIVE</div><div class="v">How you're positioned and framed</div></div>
+        <div class="signal"><div class="k">// SOURCES</div><div class="v">Which sources the answer draws from</div></div>
+        <div class="signal"><div class="k">// COMPARISON</div><div class="v">How you're framed against rivals</div></div>
+        <div class="signal"><div class="k">// CONFIDENCE</div><div class="v">How certain the model is about you</div></div>
+        <div class="signal"><div class="k">// RECOMMENDATION</div><div class="v">When and why AI recommends you</div></div>
+        <div class="signal"><div class="k">// VIRALITY</div><div class="v">How narratives about you spread</div></div>
+        <div class="signal"><div class="k">// ATTRIBUTION</div><div class="v">Where your AI reputation comes from</div></div>
+      </div>
+    </div>
+    <div class="reading" style="margin-top:42px">
+      <div class="pull"><p>SEO measured where you ranked. PAVI measures how you're reasoned about.</p></div>
+      <p>The market PAVI serves does not have a name yet — which is exactly why it's the opportunity of the decade. Enterprises will spend to protect a reputation they can finally see. Governments will need to understand how nations and institutions are represented to billions of AI queries. Brands will treat AI visibility the way they once treated search — as a budget line they cannot afford to ignore.</p>
+      <p>And the moat compounds. Every brand PAVI maps, every model it tracks, every shift it records makes the next measurement sharper. <strong>Intelligence about intelligence — that is the data advantage no competitor can buy late.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY IT MATTERS ===== -->
+<section id="matters">
+  <div class="wrap reading">
+    <div class="label">Why It Matters</div>
+    <h2 class="sec-head">This is a transition, and transitions decide who wins for a generation.</h2>
+    <p>Every platform shift redraws the map. The companies that understood the web beat the companies that merely had websites. The companies that understood mobile beat the companies that ported their software to a phone. The same line is being drawn right now, and it is wider than either of those.</p>
+    <p>The organizations that treat AI as a feature will spend the next decade falling quietly behind, wondering why their competitors move faster on less. The organizations that build intelligence into their <em>foundation</em> — into how they decide, operate, and are perceived — will compound advantages the others can't even see.</p>
+    <div class="pull"><p>You cannot manage a reputation you cannot see. You cannot win a transition you don't understand.</p></div>
+    <p>Third Code exists to put the right side of that line within reach — for the enterprise modernizing its operations, the brand defending its narrative, the government serving its citizens, and the founder who refuses to be left behind. We are not selling the future as a slogan. We are building the instruments that make it operable.</p>
+  </div>
+</section>
+
+<!-- ===== VISION FOR THE NEXT DECADE ===== -->
+<section id="vision">
+  <div class="wrap reading">
+    <div class="label">Vision For The Next Decade</div>
+    <h2 class="sec-head">To become one of Asia's most influential intelligence companies.</h2>
+    <p>We are not optimizing for a comfortable agency. We are building toward a singular position: the company the region turns to when it needs to operate intelligently in the age of AI. The path runs in deliberate phases.</p>
+    <div style="margin-top:18px">
+      <div class="phase reveal"><div class="yr">// PHASE 01</div><div><h4>Earn the right</h4><p>Build undeniable systems for real businesses. Turn problems into working software at a speed that becomes our signature, and let the radar tell us exactly where the largest, most universal pain lives.</p></div></div>
+      <div class="phase reveal"><div class="yr">// PHASE 02</div><div><h4>Own a category</h4><p>Turn the sharpest, most repeatable problems into platforms — beginning with PAVI and AI visibility, a category we intend to define before the rest of the market knows it exists.</p></div></div>
+      <div class="phase reveal"><div class="yr">// PHASE 03</div><div><h4>Build the moat</h4><p>Compound proprietary data, distribution, and trust into infrastructure competitors cannot replicate late. Become the default layer organizations build their intelligence on.</p></div></div>
+      <div class="phase reveal"><div class="yr">// PHASE 04</div><div><h4>Define the standard</h4><p>Become a benchmark intelligence company emerging from Southeast Asia — the proof that category-defining technology companies no longer come from only one place on the map.</p></div></div>
+    </div>
+    <div class="pull"><p>The next great technology companies won't all come from forty square miles of California. We intend to be the proof.</p></div>
+  </div>
+</section>
+
+<!-- ===== VALUES ===== -->
+<section id="values">
+  <div class="wrap">
+    <div class="label">Company Values</div>
+    <h2 class="sec-head">How we operate when no one is watching.</h2>
+    <div class="values reveal">
+      <div class="value"><div class="n">// 01</div><h4>Speed with taste</h4><p>We ship fast, but we refuse to ship slop. Velocity and craft are not a trade-off — they're a discipline.</p></div>
+      <div class="value"><div class="n">// 02</div><h4>Business-first AI</h4><p>We start with the bottleneck and the outcome, never the buzzword. The technology is a means; the result is the point.</p></div>
+      <div class="value"><div class="n">// 03</div><h4>Systems over heroics</h4><p>Anything worth doing twice becomes a system. We engineer leverage, not dependence on any single person staying late.</p></div>
+      <div class="value"><div class="n">// 04</div><h4>Clarity is a feature</h4><p>If an operator needs a manual to understand our work, we failed. Clean execution and clean handoff, every time.</p></div>
+      <div class="value"><div class="n">// 05</div><h4>Build the moat early</h4><p>We favor the compounding asset over the quick win — data, trust, and infrastructure that get harder to beat over time.</p></div>
+      <div class="value"><div class="n">// 06</div><h4>Together</h4><p>We win as a partner inside our clients' problems, not a vendor outside them. The last word of our mantra is the most important.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEADERSHIP / TEAM ===== -->
+<section id="leadership">
+  <div class="wrap">
+    <div class="label">Leadership &amp; Founding Team</div>
+    <h2 class="sec-head">The team is the thesis.</h2>
+    <div class="reading">
+      <p>Most technology companies are built from one ingredient: engineers who can do what machines do. We built the opposite — a <strong>co-founding team</strong> assembled deliberately across the full spectrum of the Third Code. A builder and an inventor for technical capability. An investor-engineer and a coach for strategic logic. And, crucially, a master of human attention for the dimension pure-tech companies ignore entirely: <strong>human nature.</strong></p>
+      <p>This is not a cap table of résumés. It is a working proof that intelligence in the AI era is a <em>combination</em> — and the rare companies that hold all of it at once will be the ones that win.</p>
+    </div>
+
+    <div class="founder-card reveal">
+      <div class="role">// Founder &amp; CEO</div>
+      <h3>Masshi Okubo</h3>
+      <div class="title">FOUNDER · OPERATOR · SALES STRATEGIST</div>
+      <p>Nearly a decade across the startup and software industry — enterprise software delivery, multi-million-peso sales and partnerships, SaaS and platform architecture, and AI product strategy, spanning e-commerce, construction technology, gaming, community platforms, and ERP. The Third Code lives at the intersection of building, selling, and understanding people. Third Code is led by someone who has had to do all three at once, under real stakes, with real revenue on the line.</p>
+    </div>
+
+    <div class="team">
+      <div class="member reveal">
+        <div class="role">// The Coach</div>
+        <h4>Colin Buckley</h4>
+        <div class="title">COO &amp; CO-FOUNDER · STARTUP COACH, 10+ YRS IN TECH</div>
+        <p>A startup coach with over a decade in technology, Colin has guided founders and teams through the messy reality of scaling — turning raw ambition into operating discipline. The voice that keeps velocity from becoming chaos.</p>
+      </div>
+      <div class="member reveal">
+        <div class="role">// The Inventor</div>
+        <h4>Nicole Azachee</h4>
+        <div class="title">CIO &amp; CO-FOUNDER · MULTIPLE SAMSUNG PATENTS</div>
+        <p>An inventor holding multiple patents originating from work at Samsung, Nicole brings hard, defensible R&amp;D instinct — the rare ability to create genuinely new things, not just assemble existing ones. The source of the technical moat.</p>
+      </div>
+      <div class="member reveal">
+        <div class="role">// The Investor-Engineer</div>
+        <h4>Kendrick Kho</h4>
+        <div class="title">CAIO &amp; CO-FOUNDER · VC &amp; AI ENGINEER, STANFORD</div>
+        <p>A venture capitalist and AI engineer trained at Stanford, Kendrick sits at the rare intersection of capital and code — fluent in both model architecture and the cap table, building toward valuation as deliberately as toward product.</p>
+      </div>
+      <div class="member reveal">
+        <div class="role">// The Builder</div>
+        <h4>Kurt Gabayan</h4>
+        <div class="title">CTO &amp; CO-FOUNDER · FULL-STACK &amp; AI ENGINEER</div>
+        <p>A generational talent on raw execution, Kurt is a full-stack programmer and AI engineer who ships fast and ships clean — turning architecture into working systems at a speed that becomes the company's signature.</p>
+      </div>
+      <div class="member reveal">
+        <div class="role">// Human Nature</div>
+        <h4>Arianne Bautista</h4>
+        <div class="title">CMO &amp; CO-FOUNDER · CELEBRITY, CREATOR, ENTREPRENEUR</div>
+        <p>A celebrity, content creator, and entrepreneur, Arianne anchors the dimension most technology companies never even staff: distribution, narrative, and human attention at scale. Living proof that the Third Code is incomplete without someone who truly understands people.</p>
+      </div>
+      <div class="member reveal" style="display:flex;flex-direction:column;justify-content:center;background:transparent;border:1px dashed rgba(144,90,237,.3)">
+        <div class="role">// The Synthesis</div>
+        <h4 style="margin-top:10px">Logic × Capability × Human Nature</h4>
+        <p style="margin-top:6px">Six people, one spectrum. Each anchors a dimension the others can't — and together they are the Third Code, operating.</p>
+      </div>
+    </div>
+
+    <div class="reading">
+      <div class="pull"><p>We don't hire people who compete with the machine. We hire people who command it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLOSING MANIFESTO ===== -->
+<section class="closing">
+  <div class="wrap">
+    <div class="label" style="justify-content:center;display:flex">Closing Manifesto</div>
+    <h2>Information is abundant.<br><span class="glow">Intelligence is scarce.</span><br>We are building the difference.</h2>
+    <div class="reading" style="margin:0 auto">
+      <p style="font-size:20px;color:#cfc6dd">The machines have learned to answer. The advantage now belongs to those who know what to ask, what the answer is missing, and what humans should do next. That is the Third Code — and it does not get less valuable as the technology improves. It gets more.</p>
+      <p style="font-size:20px;color:#cfc6dd">We are building from the Philippines, for the world, in a moment when the map of who gets to build the future is being redrawn. We intend to be on it.</p>
+      <p style="font-size:22px;color:#fff;font-family:'Sora';font-weight:600;line-height:1.3;margin-top:36px">Build the system your business needed yesterday.<br>We turn business problems into working systems.</p>
+    </div>
+    <div class="mantra"><b>Build</b><span class="sl">/</span><b>Solve</b><span class="sl">/</span><b>Scale</b><span class="sl">/</span><b>Together</b></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap row">
+    <div class="brand">
+      <div class="mark"><span>/</span></div>
+      <div><b>Th/rd Code</b><small>SOLUTIONS INC.</small></div>
+    </div>
+    <div class="mono">// AI · SOFTWARE · INTELLIGENCE INFRASTRUCTURE — PHILIPPINES</div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        const els = e.target.parentElement ? Array.from(e.target.parentElement.querySelectorAll('.reveal')) : [];
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transitionDelay = (Math.min(i%6,5)*0.06)+'s';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>
