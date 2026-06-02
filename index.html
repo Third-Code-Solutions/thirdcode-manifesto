@@ -268,6 +268,32 @@
   .hero h1{animation-delay:.08s}
   .hero .deck{animation-delay:.18s}
   .hero .mantra{animation-delay:.28s}
+
+  .bento{padding:56px 0 36px}
+  .bento .label{margin-bottom:22px}
+  .bento-preview{position:relative;overflow:hidden;border-radius:34px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(23,17,38,.95),rgba(16,10,33,.98));box-shadow:0 36px 90px rgba(0,0,0,.24);min-height:420px;transition:transform .35s ease}
+  .bento-preview::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 18% 18%,rgba(96,27,230,.18),transparent 24%),radial-gradient(circle at 82% 20%,rgba(192,169,226,.12),transparent 18%),linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.00));pointer-events:none}
+  .bento-preview:hover{transform:translateY(-4px)}
+  .bento-preview a{position:relative;display:grid;grid-template-columns:1fr 420px;gap:26px;color:inherit;text-decoration:none;height:100%;padding:34px;z-index:1}
+  .bento-preview .preview-content{display:flex;flex-direction:column}
+  .bento-preview .preview-image{position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#111;min-height:392px}
+  .bento-preview .preview-image img{width:100%;height:100%;object-fit:cover;display:block}
+  .bento-preview .preview-image::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,8,18,.05),rgba(10,7,18,.55))}
+  .bento-preview .badge{font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:var(--soft);display:inline-flex;align-items:center;gap:10px;margin-bottom:24px}
+  .bento-preview .dot{width:12px;height:12px;border-radius:999px;background:linear-gradient(135deg,#905AED,#601BE6)}
+  .bento-preview .top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:22px}
+  .bento-preview h3{font-size:clamp(28px,3vw,38px);margin:0;color:#fff;max-width:660px;line-height:1.08}
+  .bento-preview .arrow{width:42px;height:42px;border:1px solid rgba(255,255,255,.18);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:18px;transition:transform .2s ease,background .2s ease}
+  .bento-preview .arrow:hover{background:rgba(255,255,255,.08);transform:translateX(2px)}
+  .bento-preview .hero-copy{max-width:620px;margin-top:18px}
+  .bento-preview .hero-copy p{color:#d6c6e2;font-size:16px;line-height:1.8;margin:0}
+  .bento-preview .pane{display:grid;grid-template-columns:1fr 240px;gap:22px;margin-top:36px}
+  .bento-preview .panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:26px;backdrop-filter:blur(10px)}
+  .bento-preview .panel p{margin:0;color:#d3cde4;font-size:14px;line-height:1.8}
+  .bento-preview .panel strong{color:#fff;font-size:15px}
+  .bento-preview .bar{margin-top:32px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--soft);text-transform:uppercase}
+  @media(max-width:980px){.bento-preview a{grid-template-columns:1fr;}.bento-preview{min-height:auto;padding:26px}.bento-preview .pane{grid-template-columns:1fr}}
+
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{animation:none!important}}
 </style>
 </head>
@@ -576,6 +602,40 @@
       <p style="font-size:22px;color:#fff;font-family:'Sora';font-weight:600;line-height:1.3;margin-top:36px">Build the system your business needed yesterday.<br>We turn business problems into working systems.</p>
     </div>
     <div class="mantra"><b>Build</b><span class="sl">/</span><b>Solve</b><span class="sl">/</span><b>Scale</b><span class="sl">/</span><b>Together</b></div>
+  </div>
+</section>
+
+<section class="bento" aria-label="Third Code Solutions landing page preview">
+  <div class="wrap">
+    <div class="label">Explore the Third Code Solutions site</div>
+    <div class="bento-preview reveal">
+      <a href="https://www.thirdcodesolutions.com" target="_blank" rel="noopener noreferrer">
+        <div class="preview-content">
+          <div class="badge"><span class="dot"></span>THIRD CODE SOLUTIONS</div>
+          <div class="top-row">
+            <h3>Click to view the Third Code Solutions landing experience</h3>
+            <div class="arrow" aria-hidden="true">↗</div>
+          </div>
+          <div class="hero-copy">
+            <p>Visit the live brand page for the full AI platform narrative, intelligence infrastructure positioning, and modern enterprise landing experience.</p>
+          </div>
+          <div class="pane">
+            <div class="panel">
+              <p><strong>AI PLATFORM</strong></p>
+              <p>Preview the design language and product story used by Third Code Solutions to position intelligence as the next competitive advantage.</p>
+            </div>
+            <div class="panel">
+              <p><strong>2026</strong></p>
+              <p>Built for clarity, credibility, and a polished launch moment that feels like a premium platform preview.</p>
+            </div>
+          </div>
+          <div class="bar"><span>thirdcodesolutions.com</span><span>Visit site</span></div>
+        </div>
+        <div class="preview-image">
+          <img src="/public/thirdcodesolutions-preview.png" alt="Third Code Solutions landing page preview image">
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 
